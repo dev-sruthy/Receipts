@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>receipts. — Keep your word to yourself.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..700;1,400..700&family=Bellota:wght@400;700&family=Fraunces:ital,opsz,wght,WONK@0,9..144,100..900,1;1,9..144,100..900,1&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Global Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <a href="#" class="brand-logo" id="logoBtn" title="receipts. homepage">
+          receipts<span class="dot">.</span>
+        </a>
+      </div>
+      <nav class="header-nav">
+        <!-- Main Navigation (Only visible when logged in) -->
+        <div id="loggedInNavItems" class="logged-in-nav-items">
+          <button class="nav-tab active" data-view="dashboard" id="navDashboardBtn" title="View Daily Receipts">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"></path><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="16" y2="11"></line><line x1="8" y1="15" x2="13" y2="15"></line></svg>
+            Receipts
+          </button>
+          <button class="nav-tab" data-view="journal" id="navJournalBtn" title="Brain Dump Reflection">
+            <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            Brain Dump
+          </button>
+          <button class="pill-btn notify-btn" id="notifyBtn" title="Set email reminders">
+            <svg class="tab-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            Notify
+          </button>
+        </div>
+
+        <!-- Auth Status & Controls -->
+        <div id="authNavContainer" class="auth-nav-container">
+          <button class="pill-btn login-nav-btn" id="loginNavBtn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            Log in
+          </button>
+        </div>
+
+        <!-- Dark/Light Theme Toggle -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme (Dark / Light)" aria-label="Toggle theme">
+          <svg class="sun-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Top Solid Divider Line -->
+    <div class="divider-solid"></div>
+
+    <!-- VIEW: LOGIN (Required before accessing Receipts & Brain Dump) -->
+    <section class="login-view" id="loginViewSection">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="login-brand">receipts<span class="dot">.</span></div>
+          <h2 class="login-title" id="loginTitleText">Sign in to your receipts</h2>
+          <p class="login-subtitle">Keep your word to yourself.</p>
+        </div>
+
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="loginEmail" class="form-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              Email address
+            </label>
+            <input type="email" id="loginEmail" class="form-input" placeholder="sruthy@example.com" value="sruthy@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword" class="form-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Password
+            </label>
+            <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" value="password123" required>
+          </div>
+          <div class="login-options-row">
+            <label class="remember-label">
+              <input type="checkbox" id="rememberMeCheckbox" checked> Remember me
+            </label>
+            <a href="#" class="forgot-link" id="forgotPassLink">Forgot password?</a>
+          </div>
+          <button type="submit" class="pill-btn primary-btn full-width login-submit-btn" id="loginSubmitBtn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            Sign in
+          </button>
+          
+          <!-- Instant Guest / Demo Login Button -->
+          <button type="button" class="pill-btn secondary-btn full-width guest-login-btn" id="guestLoginBtn">
+            Continue as Guest &rarr;
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <p id="authTogglePrompt">Don't have an account? <a href="#" id="toggleAuthModeBtn">Create one</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTHENTICATED AREA: DASHBOARD (RECEIPTS) & BRAIN DUMP -->
+    <div id="authenticatedArea" class="hidden">
+      <!-- Hero / Headline Section -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">Keep your word to yourself<span class="dot">.</span></h1>
+          <p class="hero-subtitle" id="statsSubtitle">November: 14 more days to make a win</p>
+        </div>
+        <div class="hero-actions">
+          <button class="pill-btn set-goals-btn" id="openGoalModalBtn" title="Set a new goal">
+            <svg class="goal-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+            <span>Set Goals</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Dashed Divider Line -->
+      <div class="divider-dashed"></div>
+
+      <!-- VIEW 1: RECEIPTS DASHBOARD (Calendar Card + Daily Receipt Card) -->
+      <main class="main-dashboard" id="mainDashboardView">
+        
+        <!-- Left Column: Calendar Card -->
+        <section class="calendar-card" aria-label="Monthly Calendar View">
+          <div class="calendar-header-wrapper">
+            <div class="calendar-header">
+              <!-- Clickable Month & Year Picker Button -->
+              <button class="calendar-month-selector-btn" id="calendarMonthTitleBtn" title="Click to pick month & year">
+                <span id="calendarMonthTitle">November 2026</span>
+                <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+
+              <div class="month-nav-controls">
+                <button class="month-nav-btn" id="prevMonthBtn" title="Previous Month" aria-label="Previous Month">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="month-nav-btn today-jump-btn" id="jumpTodayBtn" title="Jump to Current Day">Today</button>
+                <button class="month-nav-btn" id="nextMonthBtn" title="Next Month" aria-label="Next Month">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Month & Year Quick Picker Dropdown -->
+            <div class="month-year-picker-popover hidden" id="monthYearPickerPopover">
+              <div class="picker-year-controls">
+                <button type="button" class="picker-year-btn" id="pickerPrevYearBtn" title="Previous Year">&larr;</button>
+                <span class="picker-year-label" id="pickerYearLabel">2026</span>
+                <button type="button" class="picker-year-btn" id="pickerNextYearBtn" title="Next Year">&rarr;</button>
+              </div>
+              <div class="picker-months-grid" id="pickerMonthsGrid">
+                <!-- 12 months rendered by app.js -->
+              </div>
+            </div>
+          </div>
+
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>S</span>
+            <span>M</span>
+            <span>T</span>
+            <span>W</span>
+            <span>T</span>
+            <span>F</span>
+            <span>S</span>
+          </div>
+
+          <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Calendar Days">
+            <!-- Calendar cells rendered dynamically by app.js -->
+          </div>
+
+          <!-- Legend Footer: 4 States from Figma -->
+          <footer class="calendar-legend">
+            <div class="legend-item">
+              <span class="legend-dot dot-today"></span>
+              <span class="legend-label">Today</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-loss"></span>
+              <span class="legend-label">Loss</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-win"></span>
+              <span class="legend-label">Win</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-ahead-number">31</span>
+              <span class="legend-label">Still Ahead</span>
+            </div>
+          </footer>
+        </section>
+
+        <!-- Right Column: Interactive Thermal Receipt -->
+        <section class="receipt-container" aria-label="Daily Receipt Checklist">
+          <div class="receipt-paper" id="receiptPaper">
+            <!-- Rubber Stamp Overlay (LOSS / WIN) -->
+            <div class="receipt-stamp-overlay hidden" id="receiptStampOverlay">
+              <div class="rubber-stamp stamp-loss" id="receiptStampBadge">
+                <span class="stamp-sub-text" id="stampDateText">15 NOV 2026</span>
+                <span class="stamp-main-text" id="stampMainText">LOSS</span>
+                <span class="stamp-sub-text" id="stampSubText">INCOMPLETE</span>
+              </div>
+            </div>
+
+            <!-- 8 Hole Punches across the top edge -->
+            <div class="receipt-holes" aria-hidden="true">
+              <span class="punch-hole"></span><span class="punch-hole"></span><span class="punch-hole"></span>
+              <span class="punch-hole"></span><span class="punch-hole"></span><span class="punch-hole"></span>
+              <span class="punch-hole"></span><span class="punch-hole"></span>
+            </div>
+
+            <!-- Receipt Content -->
+            <div class="receipt-inner">
+              <div class="receipt-brand">
+                receipts<span class="dot">.</span>
+              </div>
+              <div class="receipt-date" id="receiptDateDisplay">Sun 15 Nov 2026</div>
+
+              <div class="receipt-rule"></div>
+
+              <!-- Goal Checklist Items (Starts clean with placeholders) -->
+              <div class="receipt-items-list" id="receiptItemsList">
+                <!-- Dynamically populated or clean placeholders -->
+              </div>
+
+              <!-- Quick Add Item Row -->
+              <div class="receipt-add-row" id="receiptAddRow">
+                <input type="text" id="newReceiptItemInput" class="receipt-input" placeholder="+ Add a commitment..." maxlength="45">
+                <button class="receipt-add-btn" id="addReceiptItemBtn" title="Add item to receipt">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add
+                </button>
+              </div>
+
+              <div class="receipt-rule"></div>
+
+              <!-- Receipt Summary Stats -->
+              <div class="receipt-totals">
+                <div class="receipt-row">
+                  <span class="row-label">Goals</span>
+                  <span class="row-dots"></span>
+                  <span class="row-val" id="receiptGoalsCount">0</span>
+                </div>
+                <div class="receipt-row">
+                  <span class="row-label">Done</span>
+                  <span class="row-dots"></span>
+                  <span class="row-val" id="receiptDoneCount">0</span>
+                </div>
+              </div>
+
+              <div class="receipt-rule"></div>
+
+              <!-- Receipt Status Message -->
+              <div class="receipt-status-box">
+                <p class="receipt-status-text" id="receiptStatusText">
+                  0 tasks on this receipt
+                </p>
+              </div>
+
+              <!-- Settle Today Button (Inside the receipt!) -->
+              <div class="receipt-settle-container">
+                <button class="pill-btn primary-btn receipt-settle-btn" id="receiptSettleBtn">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Settle today
+                </button>
+              </div>
+
+              <!-- Barcode Stamp Decoration (Restored!) -->
+              <div class="receipt-footer-stamp">
+                <div class="receipt-barcode" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="receipt-timestamp" id="receiptTimestamp">#REC-20261115</div>
+              </div>
+            </div>
+
+            <!-- Zigzag Serrated Bottom Edge (CSS SVG Mask) -->
+            <div class="receipt-sawtooth" aria-hidden="true"></div>
+          </div>
+
+          <!-- Receipt Actions below the slip -->
+          <div class="receipt-bottom-actions">
+            <button class="action-link-btn" id="printReceiptBtn" title="Print or save daily receipt">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              Print Receipt
+            </button>
+            <button class="action-link-btn" id="openDayJournalBtn" title="Open Brain Dump for this day">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              Brain Dump
+            </button>
+            <button class="action-link-btn hidden" id="reopenReceiptBtn" title="Reopen this receipt to edit commitments">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+              Reopen Day
+            </button>
+            <a href="receipts-app.zip" download="receipts-app.zip" class="action-link-btn download-action-btn" title="Download the full application source code as a ZIP archive">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download (.zip)
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <!-- VIEW 2: BRAIN DUMP (Journal Reflection Space) -->
+      <section class="journal-view hidden" id="journalViewSection">
+        <div class="journal-header-block">
+          <h1 class="journal-main-title">Brain Dump<span class="dot">.</span></h1>
+          <p class="journal-sub-title">A quiet space to untangle your thoughts and reflect on your day.</p>
+        </div>
+
+        <div class="journal-layout">
+          <!-- Left: Lined Paper Journal Entry -->
+          <div class="journal-slip">
+            <div class="receipt-holes" aria-hidden="true">
+              <span class="punch-hole"></span><span class="punch-hole"></span><span class="punch-hole"></span>
+              <span class="punch-hole"></span><span class="punch-hole"></span><span class="punch-hole"></span>
+              <span class="punch-hole"></span><span class="punch-hole"></span>
+            </div>
+            <div class="receipt-inner">
+              <div class="receipt-brand">receipts<span class="dot">.</span></div>
+              <div class="receipt-date" id="journalDateDisplay">Sun 15 Nov 2026</div>
+              <div class="receipt-rule"></div>
+
+              <div class="journal-prompt">Tell me how your day was</div>
+
+              <!-- Quick thought prompt chips -->
+              <div class="braindump-chips">
+                <button type="button" class="thought-chip" data-prompt="What gave me energy today?">💭 Energy</button>
+                <button type="button" class="thought-chip" data-prompt="What challenged me?">⚡ Challenge</button>
+                <button type="button" class="thought-chip" data-prompt="Tomorrow's focus:">🎯 Tomorrow</button>
+              </div>
+              
+              <div class="journal-lined-editor">
+                <textarea id="journalNotesInput" class="lined-textarea" placeholder="Write freely about today... what worked, what didn't, or anything on your mind." rows="8"></textarea>
+              </div>
+
+              <!-- Real, Prominent Save Button -->
+              <div class="journal-slip-actions">
+                <button type="button" class="pill-btn primary-btn journal-save-btn" id="saveJournalBtn">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                  Save Reflection
+                </button>
+              </div>
+            </div>
+            <div class="receipt-sawtooth" aria-hidden="true"></div>
+          </div>
+
+          <!-- Right: Past Entries List -->
+          <div class="journal-past-entries">
+            <h2 class="journal-section-title">Past Reflections</h2>
+            <p class="journal-section-desc">Click any entry to load it into the notebook.</p>
+
+            <div class="past-entries-list" id="pastEntriesList">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+  <!-- MODAL: NOTIFY POPUP -->
+  <div class="modal-overlay hidden" id="notifyModal">
+    <div class="modal-backdrop" id="notifyModalBackdrop"></div>
+    <div class="modal-dialog notify-popup-dialog">
+      <button class="modal-close-btn" id="closeNotifyModalBtn" aria-label="Close modal">&times;</button>
+      <div class="notify-popup-body">
+        <h3 class="notify-popup-title">To get notification through mail</h3>
+        <form id="notifyPopupForm" class="notify-popup-form">
+          <div class="notify-user-target">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span>Sending reminders to <strong id="notifyUserEmailDisplay">sruthy@example.com</strong></span>
+          </div>
+          <div class="notify-time-select">
+            <span class="notify-time-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              Send it at:
+            </span>
+            <div class="time-pills">
+              <button type="button" class="time-pill" data-time="20:00">8:00 pm</button>
+              <button type="button" class="time-pill active" data-time="21:30">9:30 pm</button>
+              <button type="button" class="time-pill" data-time="22:30">10:30 pm</button>
+            </div>
+          </div>
+          <button type="submit" class="pill-btn primary-btn notify-popup-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            Notify
+          </button>
+          <p class="notify-popup-hint">One email a day, only if today is still open. Unsubscribe anytime.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SET GOALS -->
+  <div class="modal-overlay hidden" id="goalModal">
+    <div class="modal-backdrop" id="goalModalBackdrop"></div>
+    <div class="modal-dialog goal-modal-dialog">
+      <button class="modal-close-btn" id="closeGoalModalBtn" aria-label="Close modal">&times;</button>
+      
+      <div class="goal-modal-body">
+        <!-- Form Column -->
+        <div class="goal-form-col">
+          <h2 class="goal-modal-title">
+            <svg class="modal-title-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+            New goal
+          </h2>
+
+          <!-- Goal Duration Selection (Few Days / Monthly / Yearly) -->
+          <div class="form-group">
+            <label class="form-label">Goal Duration</label>
+            <div class="frequency-cards">
+              <button type="button" class="freq-card active" data-type="days" id="freqDaysBtn">
+                <span class="freq-title">Few Days</span>
+                <span class="freq-desc">Set for a specific number of days.</span>
+              </button>
+              <button type="button" class="freq-card" data-type="monthly" id="freqMonthlyBtn">
+                <span class="freq-title">Monthly</span>
+                <span class="freq-desc">For the rest of this month.</span>
+              </button>
+              <button type="button" class="freq-card" data-type="yearly" id="freqYearlyBtn">
+                <span class="freq-title">Yearly</span>
+                <span class="freq-desc">For the rest of this year.</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Goal Input -->
+          <div class="form-group">
+            <label for="goalNameInput" class="form-label">What is the goal?</label>
+            <input type="text" id="goalNameInput" class="form-input" placeholder="e.g. Stretch for 10 minutes" value="Stretch for 10 minutes">
+          </div>
+
+          <!-- Dynamic Duration Controls (When 'Few Days' is active) -->
+          <div class="form-group" id="daysControlGroup">
+            <label class="form-label">How many days should this goal appear?</label>
+            <div class="duration-chips" id="durationChipsContainer">
+              <button type="button" class="duration-chip" data-days="3">3 days</button>
+              <button type="button" class="duration-chip" data-days="5">5 days</button>
+              <button type="button" class="duration-chip active" data-days="7">7 days</button>
+              <button type="button" class="duration-chip" data-days="14">14 days</button>
+              <button type="button" class="duration-chip" data-days="21">21 days</button>
+              <button type="button" class="duration-chip" data-days="30">30 days</button>
+            </div>
+            <div class="custom-days-row">
+              <span class="custom-days-label">Or enter exact days:</span>
+              <input type="number" id="goalDaysCountInput" class="form-input short-input" min="1" max="365" value="7">
+              <span class="custom-days-unit">days</span>
+            </div>
+          </div>
+
+          <!-- Live Duration Summary Banner -->
+          <div class="goal-duration-banner" id="goalDurationBanner">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span id="goalDurationSummaryText">Appears on receipts for <strong>7 days</strong> starting today.</span>
+          </div>
+
+          <!-- Modal Actions -->
+          <div class="modal-actions">
+            <button type="button" class="pill-btn cancel-btn" id="cancelGoalModalBtn">Cancel</button>
+            <button type="button" class="pill-btn primary-btn" id="saveGoalBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Add to receipts
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

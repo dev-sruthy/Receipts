@@ -1,0 +1,2140 @@
+/* ==========================================================================
+   receipts. Design System & Responsive Stylesheet
+   Based on Figma Design "receipts" (Desktop - 1 & Desktop - 2)
+   ========================================================================== */
+
+:root {
+  /* Dark Theme (Default - Desktop 1) */
+  --bg-page: #1a1a1a;
+  --text-primary: #f6f3e7;
+  --text-muted: #b3afa6;
+  --accent-red: #e54d42;
+  --divider-solid: #f6f3e7;
+  --divider-dashed: #575757;
+  
+  --card-bg: #1a1a1a;
+  --card-border: #575757;
+  --card-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+
+  --receipt-bg: #f6f3e7;
+  --receipt-text: #1a1a1a;
+  --receipt-text-muted: #666666;
+  --receipt-rule: #1a1a1a;
+  --receipt-hole-color: #1a1a1a;
+  --receipt-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+
+  --cal-win-bg: #f6f3e7;
+  --cal-win-text: #1a1a1a;
+  --cal-loss-border: #e54d42;
+  --cal-loss-text: #e54d42;
+  --cal-today-bg: #e54d42;
+  --cal-today-text: #ffffff;
+  --cal-ahead-bg: #f6f3e7;
+  --cal-ahead-text: #1a1a1a;
+
+  --modal-bg: #222222;
+  --modal-border: #444444;
+  --input-bg: #2a2a2a;
+  --input-border: #555555;
+  --input-text: #f6f3e7;
+
+  --pill-active-bg: #f6f3e7;
+  --pill-active-text: #1a1a1a;
+  --pill-idle-bg: transparent;
+  --pill-idle-text: #f6f3e7;
+  --pill-border: #f6f3e7;
+
+  /* Typography: Fraunces exclusively for main headings; Outfit for all other text */
+  --font-serif-brand: 'Fraunces', serif;
+  --font-serif-body: 'Outfit', sans-serif;
+  --font-sans: 'Outfit', sans-serif;
+  --font-legend: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+  --container-max-w: 1440px;
+  --transition-speed: 0.25s;
+}
+
+[data-theme="light"] {
+  /* Light Theme (Desktop 2) */
+  --bg-page: #f6f3e7;
+  --text-primary: #1a1a1a;
+  --text-muted: #6e6a63;
+  --accent-red: #e54d42;
+  --divider-solid: #1a1a1a;
+  --divider-dashed: #a39f94;
+
+  --card-bg: #f6f3e7;
+  --card-border: #575757;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  --receipt-bg: #1a1a1a;
+  --receipt-text: #f6f3e7;
+  --receipt-text-muted: #b3afa6;
+  --receipt-rule: #3a3a3a;
+  --receipt-hole-color: #f6f3e7;
+  --receipt-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+
+  --cal-win-bg: #1a1a1a;
+  --cal-win-text: #f6f3e7;
+  --cal-loss-border: #e54d42;
+  --cal-loss-text: #e54d42;
+  --cal-today-bg: #e54d42;
+  --cal-today-text: #ffffff;
+  --cal-ahead-bg: #1a1a1a;
+  --cal-ahead-text: #f6f3e7;
+
+  --modal-bg: #ebe7d8;
+  --modal-border: #cccccc;
+  --input-bg: #ffffff;
+  --input-border: #bbbbbb;
+  --input-text: #1a1a1a;
+
+  --pill-active-bg: #1a1a1a;
+  --pill-active-text: #f6f3e7;
+  --pill-idle-bg: transparent;
+  --pill-idle-text: #1a1a1a;
+  --pill-border: #1a1a1a;
+}
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+input, textarea {
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+}
+
+.dot {
+  color: var(--accent-red);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Layout Container
+   ========================================================================== */
+
+.app-container {
+  width: 100%;
+  max-width: var(--container-max-w);
+  margin: 0 auto;
+  padding: 20px 48px 60px 48px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 16px 20px 40px 20px;
+  }
+}
+
+/* ==========================================================================
+   App Header & Navigation
+   ========================================================================== */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 24px 0;
+  gap: 20px;
+}
+
+.brand-logo {
+  font-family: var(--font-serif-brand);
+  font-size: 52px;
+  font-weight: 900;
+  color: var(--text-primary);
+  text-decoration: none;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.logged-in-nav-items {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tab-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+  opacity: 0.9;
+}
+
+.nav-tab {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.nav-tab:hover {
+  color: var(--text-primary);
+}
+
+.nav-tab.active {
+  background-color: var(--pill-active-bg);
+  color: var(--pill-active-text);
+  font-weight: 600;
+}
+
+/* Pill Buttons */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pill-btn:active {
+  transform: scale(0.97);
+}
+
+.notify-btn {
+  border: 1.5px solid var(--pill-border);
+  color: var(--text-primary);
+  padding: 9px 22px;
+}
+
+.notify-btn:hover {
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--divider-dashed);
+  color: var(--text-primary);
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--text-primary);
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+[data-theme="dark"] .sun-icon {
+  display: block;
+}
+[data-theme="dark"] .moon-icon {
+  display: none;
+}
+
+[data-theme="light"] .sun-icon {
+  display: none;
+}
+[data-theme="light"] .moon-icon {
+  display: block;
+}
+
+/* ==========================================================================
+   Dividers
+   ========================================================================== */
+
+.divider-solid {
+  width: 100%;
+  height: 1px;
+  background-color: var(--divider-solid);
+  margin-bottom: 26px;
+  opacity: 0.9;
+}
+
+.divider-dashed {
+  width: 100%;
+  height: 0px;
+  border-top: 1.5px dashed var(--divider-dashed);
+  margin-top: 26px;
+  margin-bottom: 40px;
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-title {
+  font-family: var(--font-serif-brand);
+  font-size: 46px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+  line-height: 1.15;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--text-muted);
+  margin-top: 8px;
+  letter-spacing: -0.2px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.secondary-btn {
+  border: 1.5px solid var(--pill-border);
+  color: var(--text-primary);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 28px;
+  border-radius: 9999px;
+}
+
+.secondary-btn:hover {
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+/* Set Goals Button (Stroke only, no fill as in Figma Desktop 1 & 2 with Goal Bullseye Icon) */
+.set-goals-btn {
+  background-color: transparent !important;
+  border: 1.5px solid var(--pill-border) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 19px !important;
+  font-weight: 500 !important;
+  padding: 8px 24px !important;
+  border-radius: 9999px !important;
+  box-shadow: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease;
+}
+
+.set-goals-btn .goal-btn-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+.set-goals-btn:hover {
+  background-color: rgba(128, 128, 128, 0.15) !important;
+  transform: translateY(-1px);
+}
+
+.primary-btn {
+  background-color: var(--pill-active-bg);
+  color: var(--pill-active-text);
+  border: 2px solid var(--pill-active-bg);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 28px;
+  border-radius: 9999px;
+}
+
+.primary-btn:hover {
+  opacity: 0.92;
+}
+
+/* ==========================================================================
+   Main Dashboard: 2-Column Grid
+   ========================================================================== */
+
+.main-dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .main-dashboard {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* ==========================================================================
+   Calendar Card (Left Column)
+   ========================================================================== */
+
+.calendar-card {
+  background-color: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 20px;
+  padding: 36px 36px 28px 36px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-speed) ease;
+}
+
+.calendar-header-wrapper {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-month-selector-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 6px 12px;
+  margin-left: -12px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  transition: all 0.2s ease;
+}
+
+.calendar-month-selector-btn:hover {
+  background-color: rgba(128, 128, 128, 0.12);
+  border-color: var(--card-border);
+}
+
+.dropdown-chevron {
+  transition: transform 0.2s ease;
+  opacity: 0.7;
+}
+
+.calendar-month-selector-btn.open .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+/* Month & Year Popover */
+.month-year-picker-popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  background-color: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  width: 320px;
+  margin-top: 8px;
+  animation: fadeIn 0.2s ease;
+}
+
+.picker-year-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.picker-year-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  font-size: 16px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picker-year-btn:hover {
+  border-color: var(--text-primary);
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+.picker-year-label {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.picker-months-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.picker-month-btn {
+  padding: 8px 6px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.picker-month-btn:hover {
+  color: var(--text-primary);
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+.picker-month-btn.active {
+  background-color: var(--pill-active-bg);
+  color: var(--pill-active-text);
+}
+
+.month-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.month-nav-btn:hover {
+  border-color: var(--text-primary);
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+.today-jump-btn {
+  width: auto;
+  padding: 0 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Weekday Labels */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 300;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px 8px;
+  margin-bottom: 40px;
+  justify-items: center;
+}
+
+.calendar-day-cell {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 300;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.calendar-day-cell:hover {
+  transform: scale(1.1);
+}
+
+.calendar-day-cell:active {
+  transform: scale(0.95);
+}
+
+/* Selected Day Outline Highlight */
+.calendar-day-cell.selected {
+  outline: 2px dashed var(--accent-red);
+  outline-offset: 3px;
+}
+
+/* Cell States matching Figma */
+.calendar-day-cell.state-win {
+  background-color: var(--cal-win-bg);
+  color: var(--cal-win-text);
+  font-weight: 400;
+}
+
+.calendar-day-cell.state-loss {
+  background-color: transparent;
+  border: 2px solid var(--cal-loss-border);
+  color: var(--cal-loss-text);
+  font-weight: 400;
+}
+
+.calendar-day-cell.state-today {
+  background-color: var(--cal-today-bg);
+  color: var(--cal-today-text);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(229, 77, 66, 0.4);
+}
+
+.calendar-day-cell.state-ahead {
+  background: transparent !important;
+  color: var(--text-primary);
+  border: none !important;
+  border-radius: 50%;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  box-shadow: none !important;
+  font-weight: 300;
+}
+
+.calendar-day-cell.state-empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Calendar Legend Footer */
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 16px;
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot-today {
+  background-color: var(--cal-today-bg);
+}
+
+.dot-loss {
+  background-color: transparent;
+  border: 2px solid var(--cal-loss-border);
+}
+
+.dot-win {
+  background-color: var(--cal-win-bg);
+}
+
+.dot-ahead-number {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 300;
+  color: var(--text-primary);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  line-height: 1;
+}
+
+.legend-label {
+  font-family: var(--font-legend);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Receipt Paper (Right Column)
+   Authentic Thermal Receipt Paper with Cutout Holes & Sawtooth Tear Edge
+   ========================================================================== */
+
+.receipt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.receipt-paper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 520px;
+  background-color: var(--receipt-bg);
+  color: var(--receipt-text);
+  box-shadow: var(--receipt-shadow);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 24px 32px 42px 32px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-speed) ease;
+  
+  /* Sawtooth Bottom via CSS clip-path polygon */
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% calc(100% - 14px),
+    95% 100%,
+    90% calc(100% - 14px),
+    85% 100%,
+    80% calc(100% - 14px),
+    75% 100%,
+    70% calc(100% - 14px),
+    65% 100%,
+    60% calc(100% - 14px),
+    55% 100%,
+    50% calc(100% - 14px),
+    45% 100%,
+    40% calc(100% - 14px),
+    35% 100%,
+    30% calc(100% - 14px),
+    25% 100%,
+    20% calc(100% - 14px),
+    15% 100%,
+    10% calc(100% - 14px),
+    5% 100%,
+    0% calc(100% - 14px)
+  );
+}
+
+/* 8 Punch Holes Across Top */
+.receipt-holes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.punch-hole {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--receipt-hole-color);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Inner Receipt Typography */
+.receipt-inner {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.receipt-brand {
+  text-align: center;
+  font-family: var(--font-serif-brand);
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 4px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.receipt-date {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+}
+
+.receipt-rule {
+  width: 100%;
+  border-top: 1.5px dashed var(--receipt-rule);
+  margin: 14px 0;
+  opacity: 0.65;
+}
+
+/* Checklist Items */
+.receipt-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Empty Receipt State Placeholders */
+.receipt-empty-state {
+  padding: 6px 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty-item-ghost {
+  color: var(--receipt-text-muted);
+  font-style: italic;
+  opacity: 0.6;
+  font-size: 13.5px;
+  border-bottom: 1px dotted rgba(128, 128, 128, 0.35);
+  padding-bottom: 4px;
+}
+
+.empty-receipt-tip {
+  font-size: 12px;
+  color: var(--receipt-text-muted);
+  text-align: center;
+  line-height: 1.4;
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+.receipt-item-row {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.receipt-item-row:hover {
+  opacity: 0.85;
+}
+
+.receipt-item-row.completed {
+  color: var(--receipt-text-muted);
+}
+
+.receipt-item-row.completed .item-name {
+  text-decoration: line-through;
+}
+
+.item-check {
+  font-weight: 700;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+.item-dots {
+  flex-grow: 1;
+  border-bottom: 1.5px dotted var(--receipt-rule);
+  margin: 0 8px 4px 8px;
+  opacity: 0.45;
+}
+
+.item-state {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: lowercase;
+}
+
+.item-delete-btn {
+  margin-left: 6px;
+  color: var(--accent-red);
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.receipt-item-row:hover .item-delete-btn {
+  opacity: 1;
+}
+
+.receipt-item-row.locked-item {
+  cursor: default;
+}
+
+.receipt-item-row.locked-item:hover {
+  opacity: 1;
+}
+
+.receipt-item-row.locked-item .item-check {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.receipt-day-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  margin-top: 6px;
+}
+
+.receipt-day-badge.today-badge {
+  background-color: rgba(229, 77, 66, 0.15);
+  color: var(--accent-red);
+  border: 1px solid rgba(229, 77, 66, 0.35);
+}
+
+.receipt-day-badge.readonly-badge {
+  background-color: rgba(128, 128, 128, 0.15);
+  color: var(--receipt-text-muted);
+  border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.receipt-settle-btn:disabled,
+.receipt-settle-btn.locked-btn {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+/* Quick Add Row */
+.receipt-add-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.receipt-input {
+  flex: 1;
+  background: transparent;
+  border: 1px dashed var(--receipt-rule);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--receipt-text);
+}
+
+.receipt-input::placeholder {
+  color: var(--receipt-text-muted);
+  font-style: italic;
+}
+
+.receipt-add-btn {
+  background-color: var(--receipt-text);
+  color: var(--receipt-bg);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.receipt-add-btn:hover {
+  opacity: 0.9;
+}
+
+/* Totals */
+.receipt-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.receipt-row {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+}
+
+.row-label {
+  font-weight: 600;
+}
+
+.row-dots {
+  flex-grow: 1;
+  border-bottom: 1.5px dotted var(--receipt-rule);
+  margin: 0 8px 4px 8px;
+  opacity: 0.45;
+}
+
+.row-val {
+  font-weight: 700;
+}
+
+/* Status Message Box & Settle Inside Receipt */
+.receipt-status-box {
+  margin: 6px 0 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+.receipt-status-text {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.receipt-settle-container {
+  margin: 4px 0 16px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.receipt-settle-btn {
+  width: 100%;
+  background-color: var(--receipt-text);
+  color: var(--receipt-bg);
+  border: 2px solid var(--receipt-text);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.receipt-settle-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.receipt-timestamp {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: var(--receipt-text-muted);
+  margin-top: 4px;
+}
+
+/* Bottom Action Buttons below Receipt */
+.receipt-bottom-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 18px;
+}
+
+.action-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.action-link-btn:hover {
+  color: var(--text-primary);
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+/* ==========================================================================
+   View 2: Journal View (Matches Figma Journal Wireframe & Hifi)
+   ========================================================================== */
+
+.journal-view {
+  width: 100%;
+  animation: fadeIn 0.3s ease;
+}
+
+.journal-header-block {
+  margin-bottom: 32px;
+}
+
+.journal-main-title {
+  font-family: var(--font-serif-brand);
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.journal-sub-title {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.journal-slip-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.journal-save-btn {
+  font-size: 18px;
+  padding: 10px 28px;
+}
+
+.journal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 60px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .journal-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.journal-slip {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--receipt-bg);
+  color: var(--receipt-text);
+  box-shadow: var(--receipt-shadow);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 24px 32px 42px 32px;
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% calc(100% - 14px),
+    95% 100%, 90% calc(100% - 14px), 85% 100%, 80% calc(100% - 14px),
+    75% 100%, 70% calc(100% - 14px), 65% 100%, 60% calc(100% - 14px),
+    55% 100%, 50% calc(100% - 14px), 45% 100%, 40% calc(100% - 14px),
+    35% 100%, 30% calc(100% - 14px), 25% 100%, 20% calc(100% - 14px),
+    15% 100%, 10% calc(100% - 14px), 5% 100%, 0% calc(100% - 14px)
+  );
+}
+
+.braindump-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.thought-chip {
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px dashed var(--receipt-rule);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--receipt-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.thought-chip:hover {
+  color: var(--receipt-text);
+  border-color: var(--receipt-text);
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.journal-save-btn {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.journal-save-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.journal-prompt {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.journal-lined-editor {
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 28px,
+    var(--receipt-rule) 28px,
+    var(--receipt-rule) 29px
+  );
+  line-height: 29px;
+  padding-bottom: 12px;
+}
+
+.lined-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--receipt-text);
+  line-height: 29px;
+  resize: none;
+}
+
+.journal-saved-hint {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--receipt-text-muted);
+  margin-top: 14px;
+  font-style: italic;
+}
+
+.journal-past-entries {
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-section-title {
+  font-family: var(--font-serif-brand);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.journal-section-desc {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.past-entries-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.past-entry-item {
+  padding: 20px 0;
+  border-top: 1px solid var(--divider-dashed);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.past-entry-item:hover {
+  opacity: 0.85;
+}
+
+.past-entry-header {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.past-entry-header .badge-win {
+  color: var(--text-primary);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.past-entry-header .badge-loss {
+  color: var(--accent-red);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.past-entry-body {
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   View 3: Notify View (Figma 78:112)
+   ========================================================================== */
+
+.notify-view {
+  width: 100%;
+  animation: fadeIn 0.3s ease;
+}
+
+.notify-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .notify-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.notify-headline {
+  font-family: var(--font-serif-brand);
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.notify-subtext {
+  font-size: 20px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 480px;
+}
+
+.notify-card {
+  background-color: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 20px;
+  padding: 36px 36px 32px 36px;
+  box-shadow: var(--card-shadow);
+}
+
+.notify-card-title {
+  font-family: var(--font-serif-brand);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.notify-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.form-input {
+  background-color: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--input-text);
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--text-primary);
+}
+
+.time-pills {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.time-pill {
+  padding: 10px 20px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--card-border);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.time-pill.active {
+  background-color: var(--pill-active-bg);
+  color: var(--pill-active-text);
+  border-color: var(--pill-active-bg);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.notify-footer-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Modal: Set Goals (Figma 78:110)
+   ========================================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--modal-bg);
+  border: 2px solid var(--modal-border);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Notify Modal Popup (Matching Figma Lo-Fi Frame 'Notify') */
+.notify-popup-dialog {
+  max-width: 480px;
+  padding: 40px 36px;
+  text-align: center;
+  background-color: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 20px;
+}
+
+.notify-popup-title {
+  font-family: var(--font-serif-brand);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+  line-height: 1.25;
+}
+
+.notify-popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.notify-user-target {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: rgba(128, 128, 128, 0.12);
+  border: 1px dashed var(--card-border);
+  border-radius: 9999px;
+  font-size: 14.5px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.notify-user-target strong {
+  color: var(--accent-red);
+}
+
+.notify-popup-input {
+  text-align: center;
+  font-size: 16px;
+  padding: 14px;
+}
+
+.notify-time-select {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.notify-time-label {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.notify-popup-btn {
+  width: 100%;
+  font-size: 22px;
+  padding: 12px 24px;
+  margin-top: 4px;
+}
+
+.notify-popup-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--text-muted);
+}
+
+.modal-close-btn:hover {
+  color: var(--text-primary);
+}
+
+.goal-modal-dialog {
+  max-width: 580px;
+}
+
+.goal-modal-body {
+  display: block;
+}
+
+.goal-modal-title {
+  font-family: var(--font-serif-brand);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+/* Frequency Cards */
+.frequency-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.freq-card {
+  padding: 14px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--modal-border);
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.freq-card.active {
+  background-color: var(--text-primary);
+  color: var(--bg-page);
+  border-color: var(--text-primary);
+}
+
+.freq-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.freq-desc {
+  font-size: 11px;
+  opacity: 0.8;
+  line-height: 1.3;
+}
+
+/* Repeat Days */
+.repeat-days {
+  display: flex;
+  gap: 8px;
+}
+
+.day-toggle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--modal-border);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.day-toggle.active {
+  background-color: var(--text-primary);
+  color: var(--bg-page);
+  border-color: var(--text-primary);
+}
+
+.short-input {
+  max-width: 140px;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.cancel-btn {
+  border: 1.5px solid var(--modal-border);
+  color: var(--text-primary);
+}
+
+/* Live Receipt Preview in Modal */
+.preview-paper {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.highlighted-row {
+  background-color: rgba(229, 77, 66, 0.15);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.preview-hint {
+  font-size: 12px;
+  color: var(--receipt-text-muted);
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Auth & Login Page
+   ========================================================================== */
+
+.auth-nav-container {
+  display: flex;
+  align-items: center;
+}
+
+.login-nav-btn {
+  border: 1.5px solid var(--pill-border);
+  color: var(--text-primary);
+  padding: 8px 20px;
+  font-size: 15px;
+}
+
+.login-nav-btn:hover {
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-greeting {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.logout-btn {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  color: var(--accent-red);
+}
+
+/* Login View Card */
+.login-view {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 460px;
+  background-color: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 20px;
+  padding: 44px 38px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.login-brand {
+  font-family: var(--font-serif-brand);
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+.login-title {
+  font-family: var(--font-serif-brand);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.login-subtitle {
+  font-family: var(--font-serif-body);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: var(--text-muted);
+  text-decoration: underline;
+  font-size: 13px;
+}
+
+.forgot-link:hover {
+  color: var(--text-primary);
+}
+
+.login-submit-btn {
+  font-size: 20px;
+  padding: 14px;
+  margin-top: 8px;
+}
+
+.guest-login-btn {
+  border: 1.5px dashed var(--pill-border);
+  font-size: 15px;
+  padding: 12px;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.guest-login-btn:hover {
+  background-color: rgba(128, 128, 128, 0.12);
+}
+
+.login-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.login-footer a {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-nav {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .hero-title {
+    font-size: 34px;
+  }
+
+  .hero-subtitle {
+    font-size: 22px;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .secondary-btn, .primary-btn, .set-goals-btn {
+    flex: 1;
+    font-size: 18px !important;
+    padding: 10px 22px !important;
+  }
+
+  .calendar-card {
+    padding: 24px 18px 20px 18px;
+  }
+
+  .calendar-grid {
+    gap: 8px 4px;
+  }
+
+  .calendar-day-cell {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
+
+  .receipt-paper {
+    padding: 20px 18px 36px 18px;
+  }
+}
+
+
+/* ==========================================================================
+   Rubber Stamp Overlay (Loss & Win)
+   ========================================================================== */
+
+.receipt-stamp-overlay {
+  position: absolute;
+  top: 76px;
+  right: 28px;
+  z-index: 15;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rubber-stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transform: rotate(-13deg);
+  user-select: none;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  animation: stampImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.rubber-stamp.stamp-loss {
+  border: 4px double #e54d42;
+  color: #e54d42;
+  background-color: rgba(229, 77, 66, 0.08);
+  outline: 1.5px dashed rgba(229, 77, 66, 0.4);
+  outline-offset: 3px;
+}
+
+.rubber-stamp.stamp-win {
+  border: 4px double #2e7d32;
+  color: #2e7d32;
+  background-color: rgba(46, 125, 50, 0.08);
+  outline: 1.5px dashed rgba(46, 125, 50, 0.4);
+  outline-offset: 3px;
+}
+
+[data-theme="light"] .rubber-stamp.stamp-loss {
+  border: 4px double #d32f2f;
+  color: #d32f2f;
+  background-color: rgba(211, 47, 47, 0.08);
+  outline-color: rgba(211, 47, 47, 0.5);
+}
+
+[data-theme="light"] .rubber-stamp.stamp-win {
+  border: 4px double #1b5e20;
+  color: #1b5e20;
+  background-color: rgba(27, 94, 32, 0.08);
+  outline-color: rgba(27, 94, 32, 0.5);
+}
+
+.stamp-main-text {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  line-height: 1;
+  margin: 2px 0;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.stamp-sub-text {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  opacity: 0.9;
+}
+
+@keyframes stampImpact {
+  0% {
+    transform: scale(2.4) rotate(-24deg);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(0.92) rotate(-11deg);
+    opacity: 0.96;
+  }
+  100% {
+    transform: scale(1) rotate(-13deg);
+    opacity: 0.92;
+  }
+}
+
+/* ==========================================================================
+   Goal Duration Controls & Chips (Set Goals Modal)
+   ========================================================================== */
+
+.duration-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.duration-chip {
+  padding: 8px 16px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--modal-border);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.duration-chip:hover {
+  border-color: var(--text-primary);
+}
+
+.duration-chip.active {
+  background-color: var(--text-primary);
+  color: var(--bg-page);
+  border-color: var(--text-primary);
+}
+
+.custom-days-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.custom-days-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.custom-days-unit {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.goal-duration-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background-color: rgba(229, 77, 66, 0.1);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: var(--text-primary);
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
+.goal-duration-banner strong {
+  color: var(--accent-red);
+}
+
+#reopenReceiptBtn {
+  color: var(--accent-red);
+}
+
+#reopenReceiptBtn:hover {
+  background-color: rgba(229, 77, 66, 0.12);
+}
+
+/* ==========================================================================
+   Toast Notification System
+   ========================================================================== */
+
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 99999;
+  pointer-events: none;
+  max-width: 90vw;
+}
+
+.app-toast {
+  pointer-events: auto;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border: 1.5px solid var(--accent-red);
+  padding: 12px 22px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  animation: toastSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.app-toast.toast-fadeout {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
